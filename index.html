@@ -1,0 +1,1602 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Tab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Focus Mode UI -->
+    <div class="focus-mode-indicator" id="focus-indicator">Focus Mode</div>
+    <div class="focus-time" id="focus-time"></div>
+    <div class="focus-toggle-hint">Press F to toggle focus mode</div>
+
+    <!-- Shiva Divine Presence -->
+    <div class="shiva-presence" id="shiva-presence">
+      <!-- Trishul (Trident) -->
+      <svg
+        class="trishul"
+        viewBox="0 0 80 100"
+        preserveAspectRatio="xMidYMid meet"
+      >
+        <defs>
+          <linearGradient id="trishulGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="rgba(200, 180, 160, 0.6)" />
+            <stop offset="50%" stop-color="rgba(160, 140, 120, 0.4)" />
+            <stop offset="100%" stop-color="rgba(120, 100, 80, 0.1)" />
+          </linearGradient>
+        </defs>
+        <!-- Center prong -->
+        <path
+          d="M40 5 L38 25 L40 22 L42 25 Z"
+          fill="url(#trishulGrad)"
+          stroke="rgba(180,160,140,0.5)"
+          stroke-width="0.5"
+        />
+        <!-- Left prong -->
+        <path
+          d="M25 18 L28 32 L32 28 Z"
+          fill="url(#trishulGrad)"
+          stroke="rgba(180,160,140,0.4)"
+          stroke-width="0.5"
+        />
+        <!-- Right prong -->
+        <path
+          d="M55 18 L52 32 L48 28 Z"
+          fill="url(#trishulGrad)"
+          stroke="rgba(180,160,140,0.4)"
+          stroke-width="0.5"
+        />
+        <!-- Curved crossbar -->
+        <path
+          d="M28 32 Q40 38 52 32"
+          fill="none"
+          stroke="rgba(180,160,140,0.5)"
+          stroke-width="1.5"
+        />
+        <!-- Handle -->
+        <line
+          x1="40"
+          y1="36"
+          x2="40"
+          y2="95"
+          stroke="url(#trishulGrad)"
+          stroke-width="2"
+        />
+      </svg>
+
+      <!-- Shiva Eyes Container -->
+      <div class="shiva-eyes" id="shiva-eyes">
+        <!-- Left Eye -->
+        <div class="shiva-eye left-eye">
+          <div class="eye-socket">
+            <div class="eye-white">
+              <div class="eye-iris">
+                <div class="eye-pupil" id="left-pupil">
+                  <div class="pupil-highlight"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Third Eye (Center) -->
+        <div class="third-eye">
+          <div class="third-eye-outer">
+            <div class="third-eye-inner">
+              <div class="third-eye-core"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Eye -->
+        <div class="shiva-eye right-eye">
+          <div class="eye-socket">
+            <div class="eye-white">
+              <div class="eye-iris">
+                <div class="eye-pupil" id="right-pupil">
+                  <div class="pupil-highlight"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated Background -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="presence-orb orb-1"></div>
+    <div class="presence-orb orb-2"></div>
+    <div class="presence-orb orb-3"></div>
+    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <!-- Focus Axis -->
+    <div class="focus-axis"></div>
+
+    <!-- Anime Character Signature Layer -->
+    <div class="anime-presence" id="anime-presence">
+      <!-- GOJO: White spiky hair + blindfold line -->
+      <div class="character-layer" data-character="gojo">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="gojoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="1" />
+              <stop offset="50%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Iconic white spiky hair -->
+          <path
+            d="M280 30 L265 0 L275 5 L290 -5 L295 15 L305 0 L315 20 L325 5 L330 35 L320 50 Z"
+            fill="url(#gojoGrad)"
+            opacity="0.9"
+          />
+          <path
+            d="M250 45 L235 15 L245 25 L255 10 L265 40 Z"
+            fill="url(#gojoGrad)"
+            opacity="0.8"
+          />
+          <path
+            d="M335 45 L350 20 L355 35 L345 55 L335 50 Z"
+            fill="url(#gojoGrad)"
+            opacity="0.7"
+          />
+          <!-- Blindfold line - SIGNATURE -->
+          <rect
+            x="220"
+            y="70"
+            width="130"
+            height="12"
+            rx="6"
+            fill="currentColor"
+            opacity="0.85"
+          />
+          <!-- Head silhouette -->
+          <ellipse
+            cx="285"
+            cy="85"
+            rx="55"
+            ry="50"
+            fill="url(#gojoGrad)"
+            opacity="0.4"
+          />
+          <!-- Shoulders + high collar -->
+          <path
+            d="M230 130 L200 145 L180 180 L175 250 L180 350 L170 700 L280 700 L275 350 L280 200 L290 160 L340 145 L380 160 L400 250 L390 700 L420 700 L400 200 L370 155 L340 140 L290 130 Z"
+            fill="url(#gojoGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- SUKUNA: Forehead mark + jaw curse markings -->
+      <div class="character-layer" data-character="sukuna">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="sukunaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.95" />
+              <stop offset="45%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Short spiky hair -->
+          <path
+            d="M275 25 L268 5 L280 10 L290 0 L295 20 L305 8 L308 30 L295 40 Z"
+            fill="url(#sukunaGrad)"
+            opacity="0.8"
+          />
+          <!-- Forehead mark - SIGNATURE -->
+          <path
+            d="M280 50 L275 38 L280 42 L285 38 L280 50 M280 55 L280 65"
+            stroke="currentColor"
+            stroke-width="3"
+            fill="none"
+            opacity="0.9"
+          />
+          <!-- Face outline -->
+          <ellipse
+            cx="280"
+            cy="80"
+            rx="45"
+            ry="42"
+            fill="url(#sukunaGrad)"
+            opacity="0.35"
+          />
+          <!-- Jaw curse markings - SIGNATURE -->
+          <path
+            d="M245 95 L235 110 L240 108 L232 120"
+            stroke="currentColor"
+            stroke-width="2.5"
+            fill="none"
+            opacity="0.85"
+          />
+          <path
+            d="M315 95 L325 110 L320 108 L328 120"
+            stroke="currentColor"
+            stroke-width="2.5"
+            fill="none"
+            opacity="0.85"
+          />
+          <path
+            d="M250 115 L242 130 L248 125"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            opacity="0.7"
+          />
+          <path
+            d="M310 115 L318 130 L312 125"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            opacity="0.7"
+          />
+          <!-- Shoulders bare/kimono -->
+          <path
+            d="M220 130 L180 155 L160 220 L150 350 L140 700 L350 700 L340 350 L350 220 L380 155 L340 130 L280 125 Z"
+            fill="url(#sukunaGrad)"
+            opacity="0.45"
+          />
+        </svg>
+      </div>
+
+      <!-- ITADORI: Spiky hair + cheek subtle marks -->
+      <div class="character-layer" data-character="itadori">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="itadoriGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Pink spiky hair - distinctive style -->
+          <path
+            d="M260 35 L250 5 L265 20 L275 0 L285 25 L300 5 L305 30 L315 15 L320 45 L300 55 L270 55 Z"
+            fill="url(#itadoriGrad)"
+            opacity="0.85"
+          />
+          <path
+            d="M245 50 L230 30 L240 40 L250 50 Z"
+            fill="url(#itadoriGrad)"
+            opacity="0.7"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="80"
+            rx="48"
+            ry="45"
+            fill="url(#itadoriGrad)"
+            opacity="0.35"
+          />
+          <!-- Cheek marks (when Sukuna manifests) -->
+          <path
+            d="M242 85 L238 92 M244 90 L240 97"
+            stroke="currentColor"
+            stroke-width="1.5"
+            fill="none"
+            opacity="0.5"
+          />
+          <path
+            d="M318 85 L322 92 M316 90 L320 97"
+            stroke="currentColor"
+            stroke-width="1.5"
+            fill="none"
+            opacity="0.5"
+          />
+          <!-- School uniform shoulders -->
+          <path
+            d="M225 125 L190 145 L170 200 L165 300 L160 700 L340 700 L345 300 L350 200 L375 145 L335 125 L280 120 Z"
+            fill="url(#itadoriGrad)"
+            opacity="0.5"
+          />
+          <!-- Collar detail -->
+          <path
+            d="M265 125 L280 145 L295 125"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            opacity="0.6"
+          />
+        </svg>
+      </div>
+
+      <!-- LEVI: Sharp jaw + cravat outline -->
+      <div class="character-layer" data-character="levi">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="leviGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop offset="45%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Undercut hair -->
+          <path
+            d="M255 40 L250 25 L260 30 L270 20 L280 35 L290 22 L300 30 L310 25 L315 45 L305 55 L260 55 Z"
+            fill="url(#leviGrad)"
+            opacity="0.85"
+          />
+          <!-- Sharp angular face - SIGNATURE -->
+          <path
+            d="M240 55 L235 90 L240 115 L280 135 L320 115 L325 90 L320 55 Z"
+            fill="url(#leviGrad)"
+            opacity="0.4"
+          />
+          <!-- Cravat - SIGNATURE -->
+          <path
+            d="M265 140 L280 155 L295 140 L290 160 L280 150 L270 160 Z"
+            fill="currentColor"
+            opacity="0.8"
+          />
+          <path
+            d="M275 155 L280 180 L285 155"
+            fill="currentColor"
+            opacity="0.6"
+          />
+          <!-- Survey Corps jacket shoulders -->
+          <path
+            d="M220 145 L175 170 L155 240 L145 400 L140 700 L360 700 L355 400 L365 240 L385 170 L340 145 L280 140 Z"
+            fill="url(#leviGrad)"
+            opacity="0.5"
+          />
+          <!-- Jacket details -->
+          <path
+            d="M200 200 L200 400"
+            stroke="currentColor"
+            stroke-width="1"
+            opacity="0.3"
+          />
+          <path
+            d="M360 200 L360 400"
+            stroke="currentColor"
+            stroke-width="1"
+            opacity="0.3"
+          />
+        </svg>
+      </div>
+
+      <!-- EREN: Longer hair + tense posture -->
+      <div class="character-layer" data-character="eren">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="erenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Long hair (timeskip) - flows down -->
+          <path
+            d="M250 30 L245 50 L235 90 L230 130 L235 100 L245 60 L260 40 L280 35 L300 40 L320 60 L335 110 L340 130 L335 90 L320 50 L310 30 L280 20 Z"
+            fill="url(#erenGrad)"
+            opacity="0.8"
+          />
+          <!-- Man bun suggestion -->
+          <ellipse
+            cx="300"
+            cy="35"
+            rx="20"
+            ry="15"
+            fill="url(#erenGrad)"
+            opacity="0.6"
+          />
+          <!-- Face silhouette -->
+          <ellipse
+            cx="280"
+            cy="85"
+            rx="42"
+            ry="45"
+            fill="url(#erenGrad)"
+            opacity="0.35"
+          />
+          <!-- Tense shoulders - forward lean -->
+          <path
+            d="M210 130 L165 160 L140 230 L130 400 L125 700 L365 700 L360 400 L370 230 L395 160 L350 130 L280 125 Z"
+            fill="url(#erenGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- NARUTO: Headband + whisker marks -->
+      <div class="character-layer" data-character="naruto">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="narutoGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.95" />
+              <stop offset="50%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Spiky hair -->
+          <path
+            d="M250 30 L235 0 L255 15 L270 -5 L280 20 L295 0 L310 20 L325 5 L335 40 L315 55 L255 55 Z"
+            fill="url(#narutoGrad)"
+            opacity="0.85"
+          />
+          <!-- Headband - SIGNATURE -->
+          <rect
+            x="235"
+            y="55"
+            width="95"
+            height="15"
+            rx="2"
+            fill="currentColor"
+            opacity="0.9"
+          />
+          <!-- Metal plate -->
+          <rect
+            x="260"
+            y="57"
+            width="40"
+            height="11"
+            rx="1"
+            fill="currentColor"
+            opacity="0.6"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="95"
+            rx="48"
+            ry="40"
+            fill="url(#narutoGrad)"
+            opacity="0.35"
+          />
+          <!-- Whisker marks - SIGNATURE -->
+          <path
+            d="M238 90 L222 88 M238 97 L222 97 M238 104 L222 106"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            opacity="0.8"
+          />
+          <path
+            d="M322 90 L338 88 M322 97 L338 97 M322 104 L338 106"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            opacity="0.8"
+          />
+          <!-- Jacket shoulders -->
+          <path
+            d="M220 130 L175 160 L155 230 L150 400 L145 700 L355 700 L360 400 L365 230 L385 160 L340 130 L280 125 Z"
+            fill="url(#narutoGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- ITACHI: Hair curtain + Akatsuki collar -->
+      <div class="character-layer" data-character="itachi">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="itachiGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Long hair with ponytail -->
+          <path
+            d="M240 35 L235 55 L230 100 L235 130 L250 95 L255 55 L270 40 L290 40 L305 55 L310 95 L325 130 L330 100 L325 55 L320 35 L280 25 Z"
+            fill="url(#itachiGrad)"
+            opacity="0.8"
+          />
+          <!-- Ponytail -->
+          <path
+            d="M300 50 L330 60 L360 90 L355 85 L325 60 L300 55"
+            fill="url(#itachiGrad)"
+            opacity="0.6"
+          />
+          <!-- Headband -->
+          <path
+            d="M242 50 L243 58 L318 58 L318 50"
+            fill="currentColor"
+            opacity="0.7"
+          />
+          <!-- Face lines (tear troughs) -->
+          <path
+            d="M260 75 L258 95"
+            stroke="currentColor"
+            stroke-width="1.5"
+            opacity="0.5"
+          />
+          <path
+            d="M300 75 L302 95"
+            stroke="currentColor"
+            stroke-width="1.5"
+            opacity="0.5"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="85"
+            rx="42"
+            ry="40"
+            fill="url(#itachiGrad)"
+            opacity="0.3"
+          />
+          <!-- Akatsuki high collar - SIGNATURE -->
+          <path
+            d="M230 130 L220 145 L215 200 L225 180 L240 155 L280 150 L320 155 L335 180 L345 200 L340 145 L330 130 Z"
+            fill="currentColor"
+            opacity="0.85"
+          />
+          <!-- Cloak -->
+          <path
+            d="M215 200 L190 300 L175 500 L165 700 L395 700 L385 500 L370 300 L345 200 Z"
+            fill="url(#itachiGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- L: Messy hair + slouched posture -->
+      <div class="character-layer" data-character="l">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="lGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Messy unkempt hair - SIGNATURE -->
+          <path
+            d="M235 50 L225 25 L240 40 L250 15 L260 35 L275 10 L285 30 L300 8 L310 35 L320 20 L325 45 L335 30 L340 55 L330 70 L240 70 Z"
+            fill="url(#lGrad)"
+            opacity="0.9"
+          />
+          <path
+            d="M225 55 L215 40 L220 55 L215 70 L230 65"
+            fill="url(#lGrad)"
+            opacity="0.7"
+          />
+          <path
+            d="M335 55 L345 45 L350 65 L340 70"
+            fill="url(#lGrad)"
+            opacity="0.7"
+          />
+          <!-- Gaunt face -->
+          <ellipse
+            cx="280"
+            cy="95"
+            rx="45"
+            ry="42"
+            fill="url(#lGrad)"
+            opacity="0.3"
+          />
+          <!-- Slouched neck - distinctive posture -->
+          <path
+            d="M270 135 L265 160 L270 180 L290 180 L295 160 L290 135"
+            fill="url(#lGrad)"
+            opacity="0.5"
+          />
+          <!-- Baggy white shirt shoulders -->
+          <path
+            d="M200 175 L150 210 L135 300 L130 500 L125 700 L375 700 L370 500 L365 300 L380 210 L340 175 L280 170 Z"
+            fill="url(#lGrad)"
+            opacity="0.45"
+          />
+        </svg>
+      </div>
+
+      <!-- LIGHT: Clean sharp hair + collar -->
+      <div class="character-layer" data-character="light">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="lightGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Neat styled hair -->
+          <path
+            d="M255 40 L248 25 L265 35 L280 25 L295 35 L312 25 L305 40 L315 50 L300 55 L265 55 L250 50 Z"
+            fill="url(#lightGrad)"
+            opacity="0.85"
+          />
+          <!-- Clean face silhouette -->
+          <ellipse
+            cx="280"
+            cy="85"
+            rx="45"
+            ry="43"
+            fill="url(#lightGrad)"
+            opacity="0.35"
+          />
+          <!-- Sharp collar - SIGNATURE -->
+          <path
+            d="M258 130 L255 145 L270 155 L280 140 L290 155 L305 145 L302 130"
+            fill="currentColor"
+            opacity="0.8"
+          />
+          <!-- Suit jacket -->
+          <path
+            d="M220 140 L175 170 L155 250 L150 400 L145 700 L355 700 L360 400 L365 250 L385 170 L340 140 L280 135 Z"
+            fill="url(#lightGrad)"
+            opacity="0.5"
+          />
+          <!-- Tie -->
+          <path
+            d="M280 155 L275 180 L280 350 L285 180 L280 155"
+            fill="currentColor"
+            opacity="0.6"
+          />
+        </svg>
+      </div>
+
+      <!-- TANJIRO: Forehead scar + checkered haori hint -->
+      <div class="character-layer" data-character="tanjiro">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="tanjiroGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.95" />
+              <stop offset="50%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Burgundy hair -->
+          <path
+            d="M255 35 L245 15 L260 25 L275 10 L285 25 L300 12 L310 30 L320 20 L320 50 L300 55 L260 55 Z"
+            fill="url(#tanjiroGrad)"
+            opacity="0.85"
+          />
+          <!-- Forehead scar - SIGNATURE -->
+          <ellipse
+            cx="278"
+            cy="55"
+            rx="12"
+            ry="8"
+            fill="currentColor"
+            opacity="0.9"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="88"
+            rx="45"
+            ry="42"
+            fill="url(#tanjiroGrad)"
+            opacity="0.35"
+          />
+          <!-- Checkered haori pattern hint - SIGNATURE -->
+          <path
+            d="M220 135 L175 165 L155 240 L150 400 L145 700 L355 700 L360 400 L365 240 L385 165 L340 135 L280 130 Z"
+            fill="url(#tanjiroGrad)"
+            opacity="0.45"
+          />
+          <!-- Checkered pattern -->
+          <rect
+            x="180"
+            y="200"
+            width="15"
+            height="15"
+            fill="currentColor"
+            opacity="0.25"
+          />
+          <rect
+            x="210"
+            y="200"
+            width="15"
+            height="15"
+            fill="currentColor"
+            opacity="0.25"
+          />
+          <rect
+            x="195"
+            y="215"
+            width="15"
+            height="15"
+            fill="currentColor"
+            opacity="0.25"
+          />
+          <rect
+            x="180"
+            y="230"
+            width="15"
+            height="15"
+            fill="currentColor"
+            opacity="0.25"
+          />
+          <rect
+            x="210"
+            y="230"
+            width="15"
+            height="15"
+            fill="currentColor"
+            opacity="0.25"
+          />
+        </svg>
+      </div>
+
+      <!-- RENGOKU: Flame-shaped hair -->
+      <div class="character-layer" data-character="rengoku">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="rengokuGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="1" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.55"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Flame-shaped hair - SIGNATURE -->
+          <path
+            d="M235 55 L220 20 L235 35 L250 0 L260 30 L275 -10 L290 25 L305 -5 L315 30 L330 10 L340 45 L345 25 L355 60 L340 70 L235 70 Z"
+            fill="url(#rengokuGrad)"
+            opacity="0.95"
+          />
+          <!-- Inner flame layers -->
+          <path
+            d="M250 60 L245 35 L260 50 L275 30 L290 55 L305 35 L315 55 L305 65 L255 65 Z"
+            fill="currentColor"
+            opacity="0.5"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="98"
+            rx="48"
+            ry="45"
+            fill="url(#rengokuGrad)"
+            opacity="0.35"
+          />
+          <!-- Haori shoulders -->
+          <path
+            d="M215 140 L165 175 L145 260 L140 420 L135 700 L365 700 L370 420 L375 260 L395 175 L345 140 L280 135 Z"
+            fill="url(#rengokuGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- GON: Tall spiky hair -->
+      <div class="character-layer" data-character="gon">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="gonGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.95" />
+              <stop offset="45%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- TALL spiky hair - SIGNATURE -->
+          <path
+            d="M265 60 L255 -20 L270 15 L280 -30 L290 10 L300 -25 L310 20 L315 60 L270 65 Z"
+            fill="url(#gonGrad)"
+            opacity="0.95"
+          />
+          <path
+            d="M250 50 L240 10 L255 35 L260 55 Z"
+            fill="url(#gonGrad)"
+            opacity="0.8"
+          />
+          <path
+            d="M315 45 L325 15 L320 55 Z"
+            fill="url(#gonGrad)"
+            opacity="0.7"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="95"
+            rx="45"
+            ry="42"
+            fill="url(#gonGrad)"
+            opacity="0.35"
+          />
+          <!-- Green jacket shoulders -->
+          <path
+            d="M225 130 L180 160 L160 230 L155 400 L150 700 L350 700 L355 400 L360 230 L380 160 L335 130 L280 125 Z"
+            fill="url(#gonGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- KILLUA: Fluffy white hair -->
+      <div class="character-layer" data-character="killua">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="killuaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="1" />
+              <stop offset="50%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Fluffy spiky white hair - SIGNATURE -->
+          <path
+            d="M240 50 L235 25 L250 40 L260 20 L270 38 L280 15 L290 35 L302 18 L312 38 L325 25 L330 50 L320 60 L250 60 Z"
+            fill="url(#killuaGrad)"
+            opacity="0.95"
+          />
+          <path
+            d="M230 45 L220 30 L232 50"
+            fill="url(#killuaGrad)"
+            opacity="0.7"
+          />
+          <path
+            d="M332 45 L342 32 L335 55"
+            fill="url(#killuaGrad)"
+            opacity="0.7"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="88"
+            rx="48"
+            ry="42"
+            fill="url(#killuaGrad)"
+            opacity="0.35"
+          />
+          <!-- Turtleneck -->
+          <path
+            d="M260 125 L260 140 L300 140 L300 125"
+            fill="currentColor"
+            opacity="0.6"
+          />
+          <!-- Shoulders -->
+          <path
+            d="M220 140 L175 170 L160 240 L155 400 L150 700 L350 700 L355 400 L360 240 L385 170 L340 140 L280 135 Z"
+            fill="url(#killuaGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- HISOKA: Star + teardrop marks -->
+      <div class="character-layer" data-character="hisoka">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="hisokaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Slicked back hair -->
+          <path
+            d="M250 50 L260 30 L280 25 L300 30 L310 50 L305 55 L260 55 Z"
+            fill="url(#hisokaGrad)"
+            opacity="0.8"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="85"
+            rx="45"
+            ry="42"
+            fill="url(#hisokaGrad)"
+            opacity="0.35"
+          />
+          <!-- Star mark - SIGNATURE -->
+          <path
+            d="M248 80 L250 72 L245 77 L252 77 L247 82 Z"
+            fill="currentColor"
+            opacity="0.95"
+          />
+          <!-- Teardrop mark - SIGNATURE -->
+          <path
+            d="M312 75 L315 82 L312 90 L309 82 Z"
+            fill="currentColor"
+            opacity="0.95"
+          />
+          <!-- Shoulders -->
+          <path
+            d="M220 130 L175 160 L155 240 L150 400 L145 700 L355 700 L360 400 L365 240 L385 160 L340 130 L280 125 Z"
+            fill="url(#hisokaGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- LUFFY: Straw hat brim + scar -->
+      <div class="character-layer" data-character="luffy">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="luffyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.95" />
+              <stop offset="50%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Straw hat - SIGNATURE -->
+          <ellipse
+            cx="280"
+            cy="35"
+            rx="65"
+            ry="20"
+            fill="currentColor"
+            opacity="0.9"
+          />
+          <ellipse
+            cx="280"
+            cy="25"
+            rx="45"
+            ry="25"
+            fill="currentColor"
+            opacity="0.7"
+          />
+          <!-- Hat band -->
+          <rect
+            x="235"
+            y="30"
+            width="90"
+            height="8"
+            fill="currentColor"
+            opacity="0.5"
+          />
+          <!-- Messy hair underneath -->
+          <path
+            d="M250 50 L245 60 L255 55 L265 62 L275 55 L285 62 L295 55 L305 60 L310 50"
+            fill="url(#luffyGrad)"
+            opacity="0.7"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="85"
+            rx="42"
+            ry="38"
+            fill="url(#luffyGrad)"
+            opacity="0.35"
+          />
+          <!-- Under-eye scar - SIGNATURE -->
+          <path
+            d="M255 85 L248 92"
+            stroke="currentColor"
+            stroke-width="2.5"
+            opacity="0.9"
+          />
+          <!-- Open shirt shoulders -->
+          <path
+            d="M215 125 L165 160 L145 240 L140 400 L135 700 L365 700 L370 400 L375 240 L395 160 L345 125 L280 120 Z"
+            fill="url(#luffyGrad)"
+            opacity="0.5"
+          />
+          <!-- Open vest detail -->
+          <path
+            d="M265 130 L265 180 M295 130 L295 180"
+            stroke="currentColor"
+            stroke-width="2"
+            opacity="0.3"
+          />
+        </svg>
+      </div>
+
+      <!-- ZORO: Bandana + eye scar -->
+      <div class="character-layer" data-character="zoro">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="zoroGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Short spiky hair -->
+          <path
+            d="M260 45 L255 25 L270 38 L280 22 L290 35 L305 25 L308 45 L295 52 L270 52 Z"
+            fill="url(#zoroGrad)"
+            opacity="0.85"
+          />
+          <!-- Bandana hint - SIGNATURE -->
+          <path
+            d="M240 48 L235 55 L325 55 L320 48"
+            fill="currentColor"
+            opacity="0.75"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="85"
+            rx="45"
+            ry="40"
+            fill="url(#zoroGrad)"
+            opacity="0.35"
+          />
+          <!-- Left eye scar (post-timeskip) - SIGNATURE -->
+          <path
+            d="M253 75 L248 95"
+            stroke="currentColor"
+            stroke-width="2.5"
+            opacity="0.9"
+          />
+          <!-- Closed eye -->
+          <path
+            d="M250 83 L258 83"
+            stroke="currentColor"
+            stroke-width="1.5"
+            opacity="0.6"
+          />
+          <!-- Shoulders + haramaki hint -->
+          <path
+            d="M215 125 L165 160 L150 240 L145 400 L140 700 L360 700 L365 400 L370 240 L395 160 L345 125 L280 120 Z"
+            fill="url(#zoroGrad)"
+            opacity="0.5"
+          />
+          <!-- Haramaki band -->
+          <rect
+            x="175"
+            y="280"
+            width="170"
+            height="25"
+            fill="currentColor"
+            opacity="0.3"
+          />
+        </svg>
+      </div>
+
+      <!-- THORFINN: Short spiky hair + dagger silhouette -->
+      <div class="character-layer" data-character="thorfinn">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="thorfinnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Messy short hair -->
+          <path
+            d="M255 40 L248 20 L265 32 L278 15 L290 30 L305 18 L310 40 L305 55 L260 55 Z"
+            fill="url(#thorfinnGrad)"
+            opacity="0.85"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="82"
+            rx="43"
+            ry="40"
+            fill="url(#thorfinnGrad)"
+            opacity="0.35"
+          />
+          <!-- Intense expression lines -->
+          <path
+            d="M260 70 L255 68 M300 70 L305 68"
+            stroke="currentColor"
+            stroke-width="1.5"
+            opacity="0.5"
+          />
+          <!-- Shoulders + cloak -->
+          <path
+            d="M210 120 L160 155 L140 240 L130 420 L125 700 L375 700 L370 420 L380 240 L400 155 L350 120 L280 115 Z"
+            fill="url(#thorfinnGrad)"
+            opacity="0.5"
+          />
+          <!-- Dagger silhouette - SIGNATURE -->
+          <path
+            d="M355 180 L360 150 L365 180 L360 350 L355 180"
+            fill="currentColor"
+            opacity="0.7"
+          />
+          <path
+            d="M350 185 L370 185"
+            stroke="currentColor"
+            stroke-width="2"
+            opacity="0.6"
+          />
+        </svg>
+      </div>
+
+      <!-- ASKELADD: Sharp hairline + cloak collar -->
+      <div class="character-layer" data-character="askeladd">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="askeladdGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Receding/slicked hair - SIGNATURE -->
+          <path
+            d="M265 45 L275 30 L285 35 L295 30 L300 45 L295 55 L270 55 Z"
+            fill="url(#askeladdGrad)"
+            opacity="0.8"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="80"
+            rx="42"
+            ry="40"
+            fill="url(#askeladdGrad)"
+            opacity="0.35"
+          />
+          <!-- Beard hint -->
+          <path
+            d="M255 105 L280 120 L305 105"
+            stroke="currentColor"
+            stroke-width="2"
+            fill="none"
+            opacity="0.4"
+          />
+          <!-- Heavy cloak with high collar - SIGNATURE -->
+          <path
+            d="M220 120 L200 130 L190 145 L185 170 L210 160 L240 145 L280 140 L320 145 L350 160 L375 170 L370 145 L360 130 L340 120 L280 115 Z"
+            fill="currentColor"
+            opacity="0.75"
+          />
+          <!-- Cloak body -->
+          <path
+            d="M185 170 L160 280 L140 450 L130 700 L370 700 L380 450 L400 280 L375 170 Z"
+            fill="url(#askeladdGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+
+      <!-- SHANKS: Facial scars + cloak -->
+      <div class="character-layer" data-character="shanks">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="shanksGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.95" />
+              <stop offset="50%" stop-color="currentColor" stop-opacity="0.5" />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Red wavy hair -->
+          <path
+            d="M240 50 L235 30 L250 42 L265 25 L280 40 L295 28 L310 42 L325 32 L325 55 L320 70 L245 70 L240 55 Z"
+            fill="url(#shanksGrad)"
+            opacity="0.85"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="90"
+            rx="48"
+            ry="45"
+            fill="url(#shanksGrad)"
+            opacity="0.35"
+          />
+          <!-- Three scars across eye - SIGNATURE -->
+          <path
+            d="M298 70 L295 95"
+            stroke="currentColor"
+            stroke-width="2"
+            opacity="0.9"
+          />
+          <path
+            d="M303 68 L300 95"
+            stroke="currentColor"
+            stroke-width="2"
+            opacity="0.9"
+          />
+          <path
+            d="M308 70 L305 93"
+            stroke="currentColor"
+            stroke-width="2"
+            opacity="0.9"
+          />
+          <!-- Captain's cloak - SIGNATURE -->
+          <path
+            d="M200 130 L150 170 L130 280 L120 480 L110 700 L390 700 L380 480 L390 280 L410 170 L360 130 L280 125 Z"
+            fill="url(#shanksGrad)"
+            opacity="0.55"
+          />
+          <!-- Cloak drape -->
+          <path
+            d="M150 170 L140 130 L120 140 L130 200"
+            fill="url(#shanksGrad)"
+            opacity="0.4"
+          />
+        </svg>
+      </div>
+
+      <!-- GIYU: Split haori pattern -->
+      <div class="character-layer" data-character="giyu">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="giyuGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Long tied back hair -->
+          <path
+            d="M250 45 L245 60 L255 50 L270 40 L290 40 L305 50 L315 60 L310 45 L280 30 Z"
+            fill="url(#giyuGrad)"
+            opacity="0.8"
+          />
+          <!-- Ponytail -->
+          <path
+            d="M290 45 L320 55 L345 80 L340 75 L315 55"
+            fill="url(#giyuGrad)"
+            opacity="0.6"
+          />
+          <!-- Head -->
+          <ellipse
+            cx="280"
+            cy="82"
+            rx="43"
+            ry="40"
+            fill="url(#giyuGrad)"
+            opacity="0.35"
+          />
+          <!-- Stoic expression -->
+          <path
+            d="M260 80 L270 80 M290 80 L300 80"
+            stroke="currentColor"
+            stroke-width="1.5"
+            opacity="0.4"
+          />
+          <!-- Split haori - SIGNATURE -->
+          <path
+            d="M220 125 L175 160 L155 250 L150 400 L145 700 L280 700 L280 130 Z"
+            fill="url(#giyuGrad)"
+            opacity="0.55"
+          />
+          <path
+            d="M280 130 L280 700 L355 700 L360 400 L365 250 L385 160 L340 125 Z"
+            fill="url(#giyuGrad)"
+            opacity="0.35"
+          />
+          <!-- Pattern difference hint -->
+          <rect
+            x="170"
+            y="200"
+            width="30"
+            height="4"
+            fill="currentColor"
+            opacity="0.3"
+          />
+          <rect
+            x="170"
+            y="220"
+            width="30"
+            height="4"
+            fill="currentColor"
+            opacity="0.3"
+          />
+          <rect
+            x="170"
+            y="240"
+            width="30"
+            height="4"
+            fill="currentColor"
+            opacity="0.3"
+          />
+        </svg>
+      </div>
+
+      <!-- CANUTE: Long flowing hair + calm posture -->
+      <div class="character-layer" data-character="canute">
+        <svg viewBox="0 0 400 700" preserveAspectRatio="xMaxYMax slice">
+          <defs>
+            <linearGradient id="canuteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="currentColor" stop-opacity="0.9" />
+              <stop
+                offset="50%"
+                stop-color="currentColor"
+                stop-opacity="0.45"
+              />
+              <stop offset="100%" stop-color="currentColor" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <!-- Long blonde flowing hair - SIGNATURE -->
+          <path
+            d="M240 40 L235 70 L230 120 L235 100 L245 60 L260 45 L280 40 L300 45 L320 70 L330 120 L335 100 L325 60 L315 40 L280 30 Z"
+            fill="url(#canuteGrad)"
+            opacity="0.85"
+          />
+          <path
+            d="M230 120 L225 180 L230 160"
+            fill="url(#canuteGrad)"
+            opacity="0.5"
+          />
+          <path
+            d="M330 120 L340 180 L332 160"
+            fill="url(#canuteGrad)"
+            opacity="0.5"
+          />
+          <!-- Delicate face -->
+          <ellipse
+            cx="280"
+            cy="80"
+            rx="38"
+            ry="38"
+            fill="url(#canuteGrad)"
+            opacity="0.3"
+          />
+          <!-- Royal collar -->
+          <path
+            d="M250 130 L245 145 L280 155 L315 145 L310 130"
+            fill="currentColor"
+            opacity="0.7"
+          />
+          <!-- Royal cloak -->
+          <path
+            d="M220 145 L170 180 L150 280 L145 450 L140 700 L360 700 L365 450 L370 280 L390 180 L340 145 L280 140 Z"
+            fill="url(#canuteGrad)"
+            opacity="0.5"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Header: Identity -->
+      <header class="header">
+        <div class="identity">
+          <h1 class="name">Rudra Thacker</h1>
+          <p class="quote" id="daily-quote"></p>
+        </div>
+      </header>
+
+      <!-- Timeline Calendar (Right Side) -->
+      <div class="timeline" id="timeline">
+        <div class="timeline-today">
+          <div class="timeline-today-day" id="timeline-day"></div>
+          <div class="timeline-today-date" id="timeline-date"></div>
+        </div>
+
+        <div class="current-time-display">
+          <div class="time-main" id="time-main"></div>
+          <div class="time-period" id="time-period"></div>
+          <div class="time-seconds" id="time-seconds"></div>
+          <div class="time-decoration"></div>
+        </div>
+      </div>
+
+      <!-- Main: Search -->
+      <main class="main-content">
+        <div class="search-container">
+          <input
+            type="text"
+            class="search-bar"
+            id="search-input"
+            placeholder="Search or enter URL..."
+            autocomplete="off"
+            autofocus
+          />
+          <span class="search-hint">Enter ↵</span>
+        </div>
+      </main>
+
+      <!-- Footer: Apps -->
+      <footer class="footer">
+        <div class="apps-wrapper">
+          <!-- Core Apps -->
+          <div class="app-group">
+            <span class="app-group-label">Core</span>
+            <div class="app-icons">
+              <a href="https://mail.google.com" class="app-icon" title="Gmail">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                  />
+                </svg>
+              </a>
+              <a href="https://youtube.com" class="app-icon" title="YouTube">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81zM10 15V9l5.2 3-5.2 3z"
+                  />
+                </svg>
+              </a>
+              <a href="https://github.com" class="app-icon" title="GitHub">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0112 6.8c.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10.02 10.02 0 0022 12c0-5.52-4.48-10-10-10z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://drive.google.com"
+                class="app-icon"
+                title="Google Drive"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M8.71 7.71L3 17h5.29l5.71-9.29L8.71 7.71zM14.29 7.71L9 17h12l-5.29-9.29-1.42 0zM12 4L7.71 7.71h8.58L12 4z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- AI Apps -->
+          <div class="app-group">
+            <span class="app-group-label">AI</span>
+            <div class="app-icons">
+              <a
+                href="https://chat.openai.com"
+                class="app-icon"
+                title="ChatGPT"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M22.28 10.85c.28-.78.42-1.6.42-2.43 0-1.55-.48-3.06-1.37-4.33a7.59 7.59 0 00-6.53-3.47c-1.15 0-2.28.26-3.31.75a7.52 7.52 0 00-5.69-.49 7.59 7.59 0 00-4.91 4.75 7.52 7.52 0 00-.49 5.69 7.5 7.5 0 00-.42 2.43c0 1.55.48 3.06 1.37 4.33a7.59 7.59 0 006.53 3.47c1.15 0 2.28-.26 3.31-.75a7.52 7.52 0 005.69.49 7.59 7.59 0 004.91-4.75 7.52 7.52 0 00.49-5.69zm-10.28 8.4c-1.23 0-2.42-.36-3.44-1.03l.17-.1 5.72-3.3c.29-.17.47-.48.47-.82V8.67l2.42 1.4v6.68a5.77 5.77 0 01-5.34 2.5zm-7.79-4.49a5.72 5.72 0 01-.69-2.74V5.34c0-.28.16-.54.42-.67l5.72-3.3c.26-.15.58-.15.84 0l5.72 3.3a.78.78 0 01.42.67v6.68c0 .28-.16.54-.42.67l-5.72 3.3a.8.8 0 01-.84 0l-5.45-3.13z"
+                  />
+                </svg>
+              </a>
+              <a href="https://claude.ai" class="app-icon" title="Claude">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://gemini.google.com"
+                class="app-icon"
+                title="Gemini"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.clawdbot.com"
+                class="app-icon"
+                title="ClawDBot"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2a2 2 0 012 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 017 7h1a1 1 0 011 1v3a1 1 0 01-1 1h-1v.27c0 1.5-1.21 2.73-2.73 2.73H5.73A2.74 2.74 0 013 19.27V19H2a1 1 0 01-1-1v-3a1 1 0 011-1h1a7 7 0 017-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 012-2zM8.5 14a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm7 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://copilot.microsoft.com"
+                class="app-icon"
+                title="Copilot"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://chat.deepseek.com"
+                class="app-icon"
+                title="DeepSeek"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://www.perplexity.ai"
+                class="app-icon"
+                title="Perplexity"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+                  />
+                </svg>
+              </a>
+              <a href="https://poe.com" class="app-icon" title="Poe">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="https://huggingface.co"
+                class="app-icon"
+                title="Hugging Face"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM8.5 8C9.33 8 10 8.67 10 9.5S9.33 11 8.5 11 7 10.33 7 9.5 7.67 8 8.5 8zm7 0c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-3.5 9c-2.33 0-4.32-1.45-5.12-3.5h1.67c.69 1.19 1.97 2 3.45 2s2.75-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- My Apps -->
+          <div class="app-group">
+            <span class="app-group-label">My Apps</span>
+            <div class="app-icons" id="my-apps-container">
+              <!-- Custom apps will be added here -->
+              <button
+                class="app-icon add-app-btn"
+                id="add-app-btn"
+                title="Add App"
+              >
+                <svg viewBox="0 0 24 24">
+                  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Add App Modal -->
+    <div class="modal-overlay" id="add-app-modal">
+      <div class="modal-content">
+        <h3>Add New App</h3>
+        <input
+          type="text"
+          id="app-name-input"
+          placeholder="App Name (e.g., Spotify)"
+        />
+        <input
+          type="url"
+          id="app-url-input"
+          placeholder="App URL (e.g., https://spotify.com)"
+        />
+        <div class="modal-buttons">
+          <button class="modal-btn cancel-btn" id="cancel-add-app">
+            Cancel
+          </button>
+          <button class="modal-btn confirm-btn" id="confirm-add-app">
+            Add
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="newtab.js"></script>
+  </body>
+</html>
