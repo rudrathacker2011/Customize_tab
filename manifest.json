@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Focus New Tab",
+  "version": "1.0.0",
+  "description": "A calm, intentional new tab with Focus Mode for deep work and philosophical reflection.",
+  "permissions": ["storage", "identity"],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "oauth2": {
+    "client_id": "117165426293-qc4svnikghccksvevkv8i4dnd4qdjvj9.apps.googleusercontent.com",
+    "scopes": ["https://www.googleapis.com/auth/calendar.readonly"]
+  }
+}
