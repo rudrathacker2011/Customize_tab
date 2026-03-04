@@ -174,35 +174,6 @@ const quotes = [
 let focusModeActive = false;
 let focusModeSpeedMultiplier = 1;
 
-// ========== CHARACTER SWITCHING ==========
-let currentCharacter = null;
-
-function setCharacter(characterId) {
-  if (currentCharacter === characterId) return;
-  currentCharacter = characterId;
-
-  const presence = document.getElementById("anime-presence");
-  if (!presence) return;
-
-  const layers = presence.querySelectorAll(".character-layer");
-
-  // Fade out all layers
-  layers.forEach((layer) => {
-    layer.classList.remove("visible");
-  });
-
-  // Fade in the matching character
-  const targetLayer = presence.querySelector(
-    `[data-character="${characterId}"]`,
-  );
-  if (targetLayer) {
-    setTimeout(() => {
-      targetLayer.classList.add("visible");
-      presence.classList.add("active");
-    }, 300);
-  }
-}
-
 function getDailyQuote() {
   const today = new Date();
   const dayOfYear = Math.floor(
@@ -397,12 +368,9 @@ let mouseX = 0,
   mouseY = 0;
 let glowX = 0,
   glowY = 0;
-let presenceX = 0,
-  presenceY = 0;
 
 function initCursorEffects() {
   const cursorGlow = document.getElementById("cursor-glow");
-  const animePresence = document.getElementById("anime-presence");
   const leftPupil = document.getElementById("left-pupil");
   const rightPupil = document.getElementById("right-pupil");
 
@@ -410,24 +378,9 @@ function initCursorEffects() {
     mouseX = e.clientX;
     mouseY = e.clientY;
 
-    // Subtle parallax for anime presence (inverted for right-side placement)
-    const moveX = (e.clientX / window.innerWidth - 0.5) * -12;
-    const moveY = (e.clientY / window.innerHeight - 0.5) * 8;
-    presenceX += (moveX - presenceX) * 0.02;
-    presenceY += (moveY - presenceY) * 0.02;
-
     // Update Shiva eye pupils
     updateShivaPupils(e.clientX, e.clientY, leftPupil, rightPupil);
   });
-
-  // Animate presence parallax
-  function animatePresence() {
-    if (animePresence) {
-      animePresence.style.transform = `translate(${presenceX}px, ${presenceY}px)`;
-    }
-    requestAnimationFrame(animatePresence);
-  }
-  animatePresence();
 
   // Animate cursor glow
   function animateCursorGlow() {
@@ -726,12 +679,11 @@ function initKeyboardShortcuts() {
 
 // ========== INITIALIZATION ==========
 document.addEventListener("DOMContentLoaded", () => {
-  // Initialize quote and character
+  // Initialize quote
   const quoteEl = document.getElementById("daily-quote");
   if (quoteEl) {
     const dailyQuote = getDailyQuote();
     quoteEl.textContent = `"${dailyQuote.text}"`;
-    setCharacter(dailyQuote.character);
   }
 
   // Initialize all systems
@@ -822,7 +774,7 @@ function initCustomApps() {
       confirmBtn.click();
     }
   });
-  
+
   nameInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       urlInput.focus();

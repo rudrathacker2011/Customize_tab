@@ -463,54 +463,6 @@ body.focus-mode .time-orb {
   opacity: 0.5;
 }
 
-/* ========== ANIME CHARACTER SIGNATURE ========== */
-.anime-presence {
-  position: fixed;
-  right: -8%;
-  bottom: -12%;
-  width: 42%;
-  height: 95%;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0;
-  animation: silhouetteBreath 18s ease-in-out infinite;
-  transition: opacity 1.5s ease-in-out;
-}
-
-.anime-presence.active {
-  opacity: 0.08;
-}
-
-.anime-presence svg {
-  width: 100%;
-  height: 100%;
-  fill: var(--accent);
-}
-
-.anime-presence .character-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 1.2s ease-in-out;
-}
-
-.anime-presence .character-layer.visible {
-  opacity: 1;
-}
-
-@keyframes silhouetteBreath {
-  0%,
-  100% {
-    transform: translate(0, 0) scale(1);
-  }
-  50% {
-    transform: translate(-3px, -5px) scale(1.005);
-  }
-}
-
 /* ========== FOCUS AXIS ========== */
 .focus-axis {
   position: fixed;
@@ -763,10 +715,6 @@ body.focus-mode .footer {
   transform: translateY(30px);
   filter: blur(8px);
   pointer-events: none;
-}
-
-body.focus-mode .anime-presence {
-  opacity: 0.04 !important;
 }
 
 body.focus-mode #bg-canvas {
